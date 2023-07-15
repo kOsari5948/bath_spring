@@ -17,14 +17,14 @@ import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 
 @Data
-@Entity(name="history")
+@Entity(name="schedule")
 @NoArgsConstructor
 @AllArgsConstructor
-public class History {
+public class Schedule {
 	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long historyid;
-	
+    private long scheduleid;
+    
 	@ManyToOne
     @JoinColumn(name = "userid")
     private com.manbath.bath.entitiy.User userid;
@@ -32,21 +32,18 @@ public class History {
 	@ManyToOne
     @JoinColumn(name = "bathid")
     private Bath bathid;
-    
-    @Column(name = "start_time")
-    private LocalDateTime start_time;
-    
-    @Column(name = "end_time")
-    private LocalDateTime end_time;
-    
-    @Column(name = "bath_time")
-    private LocalDateTime bath_time;
-    
+	
     @Column(name = "temp")
     private int temp;
     
     @Column(name = "level")
     private int level;
+    
+    @Column(name = "cleantime")
+   	private LocalDateTime cleantime;
+    
+    @Column(name = "starttime")
+   	private LocalDateTime starttime;
     
     @CreationTimestamp
 	@Column(name = "time")

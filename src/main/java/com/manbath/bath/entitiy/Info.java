@@ -17,36 +17,41 @@ import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 
 @Data
-@Entity(name="history")
+@Entity(name="info")
 @NoArgsConstructor
 @AllArgsConstructor
-public class History {
+public class Info {
 	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long historyid;
-	
-	@ManyToOne
-    @JoinColumn(name = "userid")
-    private com.manbath.bath.entitiy.User userid;
-	
+    private long infoid;
+    
 	@ManyToOne
     @JoinColumn(name = "bathid")
     private Bath bathid;
-    
-    @Column(name = "start_time")
-    private LocalDateTime start_time;
-    
-    @Column(name = "end_time")
-    private LocalDateTime end_time;
-    
-    @Column(name = "bath_time")
-    private LocalDateTime bath_time;
     
     @Column(name = "temp")
     private int temp;
     
     @Column(name = "level")
     private int level;
+    
+    @Column(name = "cap")
+    private int cap;
+    
+    @Column(name = "h_valve")
+    private int h_valve;
+    
+    @Column(name = "c_valve")
+    private int c_valve;
+    
+    @Column(name = "fan")
+    private int fan;
+    
+    @Column(name = "haet")
+    private int haet;
+    
+    @Column(name = "clean_valve")
+    private int clean_valve;
     
     @CreationTimestamp
 	@Column(name = "time")

@@ -2,6 +2,7 @@ package com.manbath.bath.entitiy;
 
 import java.time.LocalDateTime;
 
+import org.apache.catalina.User;
 import org.hibernate.annotations.CreationTimestamp;
 
 import jakarta.persistence.Column;
@@ -17,14 +18,15 @@ import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 
 @Data
-@Entity(name="history")
+@Entity(name="control")
 @NoArgsConstructor
 @AllArgsConstructor
-public class History {
+public class control {
 	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long historyid;
-	
+    private long controlid;
+    
+    
 	@ManyToOne
     @JoinColumn(name = "userid")
     private com.manbath.bath.entitiy.User userid;
@@ -32,21 +34,27 @@ public class History {
 	@ManyToOne
     @JoinColumn(name = "bathid")
     private Bath bathid;
-    
-    @Column(name = "start_time")
-    private LocalDateTime start_time;
-    
-    @Column(name = "end_time")
-    private LocalDateTime end_time;
-    
-    @Column(name = "bath_time")
-    private LocalDateTime bath_time;
-    
+	
     @Column(name = "temp")
     private int temp;
     
     @Column(name = "level")
     private int level;
+    
+    @Column(name = "cap")
+    private int cap;
+    
+    @Column(name = "h_valve")
+    private int h_valve;
+    
+    @Column(name = "c_valve")
+    private int c_valve;
+    
+    @Column(name = "clean_valve")
+    private int clean_valve;
+    
+    @Column(name = "cleantime")
+	private LocalDateTime cleantime;
     
     @CreationTimestamp
 	@Column(name = "time")

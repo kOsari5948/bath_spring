@@ -5,7 +5,7 @@ import lombok.ToString;
 
 @Data
 @ToString
-public class HistroyVO {
+public class HistroyGetVo {
 	int start;
 	int number;
 	int year;

@@ -6,7 +6,7 @@ import java.util.Map;
 import org.springframework.data.jpa.domain.Specification;
 
 import com.manbath.bath.entitiy.History;
-import com.manbath.bath.vo.HistroyVO;
+import com.manbath.bath.vo.HistroyGetVo;
 
 import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.persistence.criteria.CriteriaQuery;
@@ -25,7 +25,7 @@ public class HistorySpecification {
 		};
 	}
 
-	public static Specification<History> equalUserid(String userid, HistroyVO vo) {
+	public static Specification<History> equalUserid(String userid, HistroyGetVo vo) {
 		return new Specification<History>() {
 			@Override
 			public Predicate toPredicate(Root<History> root, CriteriaQuery<?> query, CriteriaBuilder criteriaBuilder) {

@@ -8,6 +8,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import com.manbath.bath.entitiy.History;
+import com.manbath.bath.vo.HistoryPostVo;
 
 import java.awt.print.Pageable;
 import java.time.LocalDateTime;
@@ -15,7 +16,10 @@ import java.time.LocalDateTime;
 
 @Repository
 public interface HistoryRepository extends JpaRepository<History,String>, JpaSpecificationExecutor<History>{
-//	
+
+
+	
+	
 //	//id로 검색
 //	List<HistoryEntitiy> findByUserid(String userid);
 //	
@@ -27,6 +31,4 @@ public interface HistoryRepository extends JpaRepository<History,String>, JpaSpe
 //	Page<HistoryEntitiy> findByUseridOrderByTime(String userid, Pageable pageable);
 //	
 //	Page<History> findAll(Specification<History> spec, Pageable pageable);
-
-	
 }
