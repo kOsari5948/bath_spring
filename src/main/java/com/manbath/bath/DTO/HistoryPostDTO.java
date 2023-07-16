@@ -1,4 +1,4 @@
-package com.manbath.bath.vo;
+package com.manbath.bath.DTO;
 
 import java.time.LocalDateTime;
 
@@ -7,7 +7,7 @@ import lombok.ToString;
 
 @Data
 @ToString
-public class HistoryPostVo {
+public class HistoryPostDTO {
 	private LocalDateTime start_time;
 	private LocalDateTime end_time;
 	private LocalDateTime bath_time;

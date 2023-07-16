@@ -14,10 +14,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.manbath.bath.DTO.HistoryPostDTO;
+import com.manbath.bath.DTO.HistroyGetDTO;
 import com.manbath.bath.entitiy.History;
 import com.manbath.bath.service.HistroyService;
-import com.manbath.bath.vo.HistoryPostVo;
-import com.manbath.bath.vo.HistroyGetVo;
 
 import jakarta.websocket.server.PathParam;
 
@@ -27,20 +27,23 @@ public class HistoryControl {
 	@Autowired
 	private HistroyService history_service;
 
+	
+	//사용자 기준으로 받기
 	@GetMapping("/{id}")
-	public List<History> historyGet(@PathVariable String id, HistroyGetVo histroyVO) {
-		System.out.println(histroyVO.toString());
-		return history_service.findByUserid(id,histroyVO);
+	public List<History> historyGet(@PathVariable String id, HistroyGetDTO histroyDTO) {
+		System.out.println(histroyDTO.toString());
+		return history_service.findByUserid(id,histroyDTO);
 	}
 	
+	
+	
+	//사용자 기준으로 올리기
 	@PostMapping("/{id}")
-	public int historyPost(@PathVariable String id, @RequestBody HistoryPostVo histroyVO) {
+	public History historyPost(@PathVariable String id, @RequestBody HistoryPostDTO histroyDTO) {
 		
-		System.out.print(histroyVO.toString());
+		System.out.print(histroyDTO.toString());
 		
-		System.out.println(history_service.saveByBathid(id, histroyVO));
-		
-		return 1;
+		return history_service.saveByBathid(id, histroyDTO);
 	}
 
 }

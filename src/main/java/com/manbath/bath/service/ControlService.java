@@ -7,10 +7,12 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.manbath.bath.entitiy.History;
+import com.manbath.bath.DTO.ControlPostDTO;
+import com.manbath.bath.DTO.HistroyGetDTO;
 import com.manbath.bath.entitiy.Control;
 import com.manbath.bath.repository.BathRepository;
 import com.manbath.bath.repository.ControlRepository;
-import com.manbath.bath.vo.HistroyGetVo;
+import com.manbath.bath.repository.UserRepository;
 
 import jakarta.persistence.TypedQuery;
 
@@ -23,10 +25,32 @@ public class ControlService {
 	@Autowired
 	private BathRepository bathRepository;
 	
+	@Autowired
+	private UserRepository userRepository;
+	
 	@Transactional(readOnly = true)
 	public List<Control> findByBathid(String id){
 		
 		return controlRepository.findByBathid(bathRepository.findByBathid(id));
+	}
+
+	@Transactional
+	public Control saveByBathid(String id, ControlPostDTO controlDTO) {
+		controlDTO.setBath_id(id);
+		
+		Control ct = new Control();
+		
+		ct.setBathid(bathRepository.findByBathid(controlDTO.getBath_id()));
+		ct.setUserid(userRepository.findByUserid(controlDTO.getUser_id()));
+		ct.setTemp(controlDTO.getTemp());
+		ct.setLevel(controlDTO.getLevel());
+		ct.setCap(controlDTO.getCap());
+		ct.setCap(controlDTO.getCap());
+		ct.setH_valve(controlDTO.getH_valve());
+		ct.setC_valve(controlDTO.getC_valve());
+		ct.setCleantime(controlDTO.getClean());
+		
+		return controlRepository.save(ct);
 	}
 
 }

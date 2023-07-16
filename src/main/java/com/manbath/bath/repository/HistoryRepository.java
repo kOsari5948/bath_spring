@@ -7,8 +7,8 @@ import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
+import com.manbath.bath.DTO.HistoryPostDTO;
 import com.manbath.bath.entitiy.History;
-import com.manbath.bath.vo.HistoryPostVo;
 
 import java.awt.print.Pageable;
 import java.time.LocalDateTime;

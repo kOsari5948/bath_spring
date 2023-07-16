@@ -1,11 +1,11 @@
-package com.manbath.bath.vo;
+package com.manbath.bath.DTO;
 
 import lombok.Data;
 import lombok.ToString;
 
 @Data
 @ToString
-public class HistroyGetVo {
+public class HistroyGetDTO {
 	int start;
 	int number;
 	int year;

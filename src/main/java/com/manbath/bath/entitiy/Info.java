@@ -48,7 +48,7 @@ public class Info {
     private int fan;
     
     @Column(name = "haet")
-    private int haet;
+    private int heat;
     
     @Column(name = "clean_valve")
     private int clean_valve;

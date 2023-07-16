@@ -11,30 +11,36 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.manbath.bath.entitiy.History;
+import com.manbath.bath.entitiy.Info;
 import com.manbath.bath.entitiy.Control;
 import com.manbath.bath.repository.ControlRepository;
 import com.manbath.bath.service.ControlService;
+import com.manbath.bath.service.InfoService;
 import com.manbath.bath.DTO.*;
 
 @RestController
-@RequestMapping("/control")
-public class ControlControl {
+@RequestMapping("/info")
+public class InfoControl {
 	
 	@Autowired
-	private ControlService controlService;
+	private InfoService infoService;
 	
 	@GetMapping("/{id}")
-	public List<Control> historyGet(@PathVariable String id) {
+	public List<Info> historyGet(@PathVariable String id) {
 		
-		return controlService.findByBathid(id);
+		return infoService.findByBathid(id);
 	}
 	
+	
+	
 	@PostMapping("/{id}")
-	public Control historyPost(@PathVariable String id, @RequestBody  ControlPostDTO controlDTO) {
+	public Info historyPost(@PathVariable String id, @RequestBody  InfoPostDTO infoDTO) {
 		
-		System.out.print(controlDTO.toString());
+		System.out.print(infoDTO.toString());
 		
-		return controlService.saveByBathid(id, controlDTO);
+		return infoService.saveByBathid(id, infoDTO);
 	}
+	
+	
 
 }

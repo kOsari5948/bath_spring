@@ -51,9 +51,6 @@ public class Control {
     @Column(name = "c_valve")
     private int c_valve;
     
-    @Column(name = "clean_valve")
-    private int clean_valve;
-    
     @Column(name = "cleantime")
 	private int cleantime;
     
