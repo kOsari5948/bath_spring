@@ -23,6 +23,6 @@ public class ScheduleDTO {
 	int temp;
 	String bath_id;
 	int level;
-	int cleantime;
+	int clean_time;
 	LocalDateTime bath_start;
 }

@@ -45,9 +45,9 @@ public class ScheduleService {
 		sc.setUserid(userRepository.findByUserid(scheduleDTO.getUser_id()));
 		sc.setTemp(scheduleDTO.getTemp());
 		sc.setLevel(scheduleDTO.getLevel());
-		sc.setCleantime(scheduleDTO.getCleantime());
+		sc.setCleantime(scheduleDTO.getClean_time());
 		sc.setStarttime(scheduleDTO.getBath_start());
-		
+		System.out.println("시간 출력 : "+ scheduleDTO.getBath_start());
 		
 		
 		//동적 스케쥴 처리

@@ -47,9 +47,10 @@ public class SchedulerServiceImpl {
 		dateSt+= scheduleDTO.getBath_start().getHour()+" ";
 		dateSt+= scheduleDTO.getBath_start().getDayOfMonth()+" ";
 		dateSt+= scheduleDTO.getBath_start().getMonthValue()+" ";
-		dateSt+= "* ";
-		dateSt+=scheduleDTO.getBath_start().getYear();
-				
+		dateSt+= "*";
+		//dateSt+=scheduleDTO.getBath_start().getYear();
+		System.out.println("기본 cron 처리문 : "+ cron.toString());	
+		System.out.println("스케쥴의 스케줄러 cron 처리문 : "+ dateSt.toString());		
 		setCron(dateSt);
 		
 		// scheduler setting
@@ -70,6 +71,7 @@ public class SchedulerServiceImpl {
 
 	private Runnable getRunnable(ScheduleDTO scheduleDTO) {
 		return () -> {
+			System.out.println("스케쥴 출력");
 			
 			ControlPostDTO controlDTO = new ControlPostDTO();
 			
@@ -77,7 +79,7 @@ public class SchedulerServiceImpl {
 			controlDTO.setUser_id(scheduleDTO.getUser_id());
 			controlDTO.setTemp(scheduleDTO.getTemp());
 			controlDTO.setLevel(scheduleDTO.getLevel());
-			controlDTO.setClean(scheduleDTO.getCleantime());
+			controlDTO.setClean(scheduleDTO.getClean_time());
 			
 			Control ct = new Control();
 			
@@ -91,12 +93,14 @@ public class SchedulerServiceImpl {
 			ct.setC_valve(controlDTO.getC_valve());
 			ct.setCleantime(controlDTO.getClean());
 			
-			//한번만 실행 하고 종료 
-			stopScheduler(scheduleDTO);
-			controlRepository.save(ct);
-			
-			//완료후 출력
+			//작업 출력
 			System.out.println(controlRepository.toString());
+			
+			//한번만 실행 하고 종료 
+			controlRepository.save(ct);
+			stopScheduler(scheduleDTO);
+			
+			
 		};
 	}
 
