@@ -8,12 +8,13 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import com.manbath.bath.entitiy.History;
+import com.manbath.bath.entitiy.Schedule;
 
 import java.awt.print.Pageable;
 import java.time.LocalDateTime;
 
 
 @Repository
-public interface ScheduleRepository extends JpaRepository<History,String>{
+public interface ScheduleRepository extends JpaRepository<Schedule,String>{
 
 }

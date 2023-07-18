@@ -40,7 +40,7 @@ public class Schedule {
     private int level;
     
     @Column(name = "cleantime")
-   	private LocalDateTime cleantime;
+   	private int cleantime;
     
     @Column(name = "starttime")
    	private LocalDateTime starttime;
