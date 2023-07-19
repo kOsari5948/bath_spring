@@ -35,24 +35,26 @@ public class HistroyService {
 	private BathRepository bathRepository;
 	@Autowired
 	private UserRepository userRepository;
-	
 
-	EntityManagerFactory emf = Persistence.createEntityManagerFactory("db");
-	EntityManager em = emf.createEntityManager();
+	@Autowired
+	private EntityManager em;
+
+//	EntityManagerFactory emf = Persistence.createEntityManagerFactory("db");
+//	EntityManager em = emf.createEntityManager();
 	
 	@Transactional(readOnly = true)
 	public List<History> findByUserid(String id, HistroyGetDTO vo){
 		
-		String jpql = "SELECT h FROM history h where userid = '"+ id +"' ";
-		
+		//String jpql = "SELECT h FROM history h where userid = '"+ id +"' ";
+		String jpql = "SELECT h FROM history h where h.userid = :userid ";
 		if (vo.getDay() != 0) {
-			jpql += "and DAY(start_time) = "+vo.getDay()+" ";
+			jpql += "and DAY(h.start_time) = "+vo.getDay()+" ";
 		}
 		if (vo.getYear() != 0) {
-			jpql += "and YEAR(start_time) = "+vo.getYear()+" ";
+			jpql += "and YEAR(h.start_time) = "+vo.getYear()+" ";
 		}
 		if (vo.getMonth() != 0) {
-			jpql += "and MONTH(start_time) = "+vo.getMonth()+" ";
+			jpql += "and MONTH(h.start_time) = "+vo.getMonth()+" ";
 		}
 
 		System.out.println("쿼리문 실행: " + jpql);
@@ -62,10 +64,12 @@ public class HistroyService {
 		
 		if(vo.getNumber()!= 0 ) {
 			query = em.createQuery(jpql,History.class)
+					.setParameter("userid",userRepository.findByUserid(id))
 					.setFirstResult(vo.getStart())
 					.setMaxResults(vo.getNumber());
 		}else {
 			query = em.createQuery(jpql,History.class)
+					.setParameter("userid",userRepository.findByUserid(id))
 					.setFirstResult(vo.getStart());
 		}
 		

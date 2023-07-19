@@ -15,10 +15,12 @@ public class BathApplication {
 		//타임존 시간 설정
 		//TimeZone.setDefault(TimeZone.getTimeZone("UTC"));
 		TimeZone.setDefault(TimeZone.getTimeZone("Asia/Seoul"));
+		System.out.println("프로젝트 시간대 설정");
 	}
 
 	public static void main(String[] args) {;
 		SpringApplication.run(BathApplication.class, args);
+		System.out.println("프로젝트 실행");
 	}
 
 }
