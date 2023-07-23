@@ -2,17 +2,10 @@ package com.manbath.bath.entitiy;
 
 import java.time.LocalDateTime;
 
+import jakarta.persistence.*;
 import org.apache.catalina.User;
 import org.hibernate.annotations.CreationTimestamp;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -35,9 +28,13 @@ public class Control {
 	@ManyToOne
     @JoinColumn(name = "bathid")
     private Bath bathid;
+
+    @OneToOne
+    @JoinColumn(name = "scheduleid")
+    private Schedule scheduleid;
 	
     @Column(name = "temp")
-    private int temp;
+    private float temp;
     
     @Column(name = "level")
     private int level;

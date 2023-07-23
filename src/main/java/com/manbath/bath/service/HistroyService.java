@@ -5,6 +5,8 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
+import lombok.extern.log4j.Log4j2;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -27,6 +29,7 @@ import jakarta.persistence.criteria.CriteriaQuery;
 import jakarta.persistence.criteria.Predicate;
 import jakarta.persistence.criteria.Root;
 
+@Log4j2
 @Service
 public class HistroyService {
 	@Autowired
@@ -44,7 +47,7 @@ public class HistroyService {
 	
 	@Transactional(readOnly = true)
 	public List<History> findByUserid(String id, HistroyGetDTO vo){
-		
+		log.info("Histroy findByUserid id :" + id );
 		//String jpql = "SELECT h FROM history h where userid = '"+ id +"' ";
 		String jpql = "SELECT h FROM history h where h.userid = :userid ";
 		if (vo.getDay() != 0) {
@@ -79,6 +82,7 @@ public class HistroyService {
 	
 	@Transactional
 	public History saveByBathid(String id, HistoryPostDTO historydto) {
+		log.info("Histroy saveByBathid id :" + id );
 		historydto.setBath_id(id);
 		
 		History hs = new History();

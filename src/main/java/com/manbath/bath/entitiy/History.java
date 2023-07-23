@@ -40,10 +40,10 @@ public class History {
     private LocalDateTime end_time;
     
     @Column(name = "bath_time")
-    private LocalDateTime bath_time;
+    private int bath_time;
     
     @Column(name = "temp")
-    private int temp;
+    private float temp;
     
     @Column(name = "level")
     private int level;

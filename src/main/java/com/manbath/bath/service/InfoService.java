@@ -2,7 +2,10 @@ package com.manbath.bath.service;
 
 import java.util.List;
 
+import lombok.extern.log4j.Log4j2;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -20,6 +23,7 @@ import com.manbath.bath.repository.UserRepository;
 
 import jakarta.persistence.TypedQuery;
 
+@Log4j2
 @Service
 public class InfoService {
 	
@@ -33,12 +37,14 @@ public class InfoService {
 	private UserRepository userRepository;
 	
 	@Transactional(readOnly = true)
-	public List<Info> findByBathid(String id){
-		return infoRepository.findByBathid(bathRepository.findByBathid(id));
+	public Info findByBathid(String id){
+		log.info("info findByBathid id :" + id );
+		return infoRepository.findByBathid(bathRepository.findByBathid(id), Sort.by(Sort.Direction.DESC, "infoid")).get(0);
 	}
 	
 	@Transactional
 	public Info saveByBathid (String id, InfoPostDTO infodto) {
+		log.info("info saveByBathid id :" + id );
 		infodto.setBath_id(id);
 		
 		Info info = new Info();
@@ -52,6 +58,7 @@ public class InfoService {
 		info.setFan(infodto.getFan());
 		info.setHeat(infodto.getHeat());
 		info.setClean_valve(infodto.getClean_valve());
+		info.setState(infodto.getState());
 		
 		return infoRepository.save(info);
 	}

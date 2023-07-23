@@ -10,9 +10,10 @@ public class InfoPostDTO {
 	int h_valve;
 	int c_valve;
 	int clean_valve;
-	int temp;
+	float temp;
 	int level;
 	int fan;
 	int heat;
+	int state;
 	String bath_id;
 }

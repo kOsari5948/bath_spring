@@ -10,9 +10,9 @@ import lombok.ToString;
 public class HistoryPostDTO {
 	private LocalDateTime start_time;
 	private LocalDateTime end_time;
-	private LocalDateTime bath_time;
+	private int bath_time;
 	
-	private int temp;
+	private float temp;
 	private int level;
 	
 	private String user_id;

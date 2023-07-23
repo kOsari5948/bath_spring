@@ -20,7 +20,7 @@ import lombok.ToString;
 public class ScheduleDTO {
 	
 	String user_id;
-	int temp;
+	float temp;
 	String bath_id;
 	int level;
 	int clean_time;

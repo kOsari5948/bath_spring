@@ -2,6 +2,8 @@ package com.manbath.bath.repository;
 
 import java.util.List;
 
+import com.manbath.bath.entitiy.Bath;
+import com.manbath.bath.entitiy.Control;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Query;
@@ -16,5 +18,5 @@ import java.time.LocalDateTime;
 
 @Repository
 public interface ScheduleRepository extends JpaRepository<Schedule,String>{
-
+    List<Schedule> findByBathid(Bath bathid);
 }

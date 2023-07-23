@@ -8,6 +8,8 @@ import java.util.Map;
 
 import javax.xml.crypto.dsig.keyinfo.RetrievalMethod;
 
+import lombok.extern.log4j.Log4j2;
+import lombok.extern.slf4j.Slf4j;
 import org.hibernate.type.descriptor.DateTimeUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -24,6 +26,7 @@ import com.manbath.bath.service.HistroyService;
 
 import jakarta.websocket.server.PathParam;
 
+@Log4j2
 @RestController
 @RequestMapping("/history")
 public class HistoryControl {
@@ -34,7 +37,7 @@ public class HistoryControl {
 	//사용자 기준으로 받기
 	@GetMapping("/{id}")
 	public List<History> historyGet(@PathVariable String id, HistroyGetDTO histroyDTO) {
-		System.out.println(histroyDTO.toString());
+		log.info("history get id:" + id +" Body :" + histroyDTO.toString());
 		return history_service.findByUserid(id,histroyDTO);
 	}
 	
@@ -43,9 +46,8 @@ public class HistoryControl {
 	//사용자 기준으로 올리기
 	@PostMapping("/{id}")
 	public History historyPost(@PathVariable String id, @RequestBody HistoryPostDTO histroyDTO) {
-		
-		System.out.print(histroyDTO.toString());
-		
+
+		log.info("history post id:" + id +" Body :" + histroyDTO.toString());
 		return history_service.saveByBathid(id, histroyDTO);
 	}
 	

@@ -2,7 +2,10 @@ package com.manbath.bath.service;
 
 import java.util.List;
 
+import lombok.extern.log4j.Log4j2;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -16,6 +19,7 @@ import com.manbath.bath.repository.UserRepository;
 
 import jakarta.persistence.TypedQuery;
 
+@Log4j2
 @Service
 public class ControlService {
 	
@@ -29,13 +33,14 @@ public class ControlService {
 	private UserRepository userRepository;
 	
 	@Transactional(readOnly = true)
-	public List<Control> findByBathid(String id){
-		
-		return controlRepository.findByBathid(bathRepository.findByBathid(id));
+	public Control findByBathid(String id){
+		log.info("Control findByBathid id :" + id );
+		return controlRepository.findByBathid(bathRepository.findByBathid(id),Sort.by(Sort.Direction.DESC, "controlid")).get(0);
 	}
 
 	@Transactional
 	public Control saveByBathid(String id, ControlPostDTO controlDTO) {
+		log.info("Control saveByBathid id :" + id );
 		controlDTO.setBath_id(id);
 		
 		Control ct = new Control();

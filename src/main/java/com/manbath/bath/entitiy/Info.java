@@ -28,9 +28,12 @@ public class Info {
 	@ManyToOne
     @JoinColumn(name = "bathid")
     private Bath bathid;
-    
+
+    @Column(name = "state")
+    private int state;
+
     @Column(name = "temp")
-    private int temp;
+    private float temp;
     
     @Column(name = "level")
     private int level;

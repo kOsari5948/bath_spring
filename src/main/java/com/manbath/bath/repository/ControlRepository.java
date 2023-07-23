@@ -2,6 +2,7 @@ package com.manbath.bath.repository;
 
 import java.util.List;
 
+import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Query;
@@ -18,6 +19,6 @@ import java.time.LocalDateTime;
 @Repository
 public interface ControlRepository extends JpaRepository<Control,String>{
 	
-	List<Control> findByBathid(Bath bathid);
+	List<Control> findByBathid(Bath bathid, Sort sort);
 
 }

@@ -25,7 +25,7 @@ public class ControlPostDTO {
 	int h_valve;
 	int c_valve;
 	int clean;
-	int temp;
+	float temp;
 	int level;
 	String user_id;
 	String bath_id;

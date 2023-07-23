@@ -34,7 +34,7 @@ public class Schedule {
     private Bath bathid;
 	
     @Column(name = "temp")
-    private int temp;
+    private float temp;
     
     @Column(name = "level")
     private int level;
