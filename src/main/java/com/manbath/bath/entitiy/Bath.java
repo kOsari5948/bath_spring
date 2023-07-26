@@ -26,4 +26,27 @@ public class Bath {
     @CreationTimestamp
 	@Column(name = "time")
 	private LocalDateTime time;
+
+	@Column(name = "state")
+	private int state;
+
+	@Column(name = "temp")
+	private float temp;
+
+	@Column(name = "level")
+	private int level;
+
+	@Column(name = "cap")
+	private int cap;
+
+	@Column(name = "h_valve")
+	private int h_valve;
+
+	@Column(name = "c_valve")
+	private int c_valve;
+
+	@Column(name = "clean_valve")
+	private int clean_valve;
 }
+
+

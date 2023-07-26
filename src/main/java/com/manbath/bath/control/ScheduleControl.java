@@ -35,12 +35,7 @@ public class ScheduleControl {
 	@GetMapping("/delete/{id}")
 	public String getDeleteSchedule(@PathVariable String id){
 		log.info("DeleteSchedule GET id :" + id );
-		return scheduleService.scheduleFindByUserId(id);
+		return scheduleService.DeletescheduleFindByUserId(id).toString();
 	}
 
-	@PostMapping("/delete/{id}")
-	public ThreadPoolTaskScheduler postDeleteSchedule(@PathVariable String id){
-		log.info("DeleteSchedule POST id :" + id);
-		return scheduleService.deleteScheduleByUserId(id);
-	}
 }

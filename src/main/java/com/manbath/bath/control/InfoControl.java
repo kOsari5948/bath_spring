@@ -41,7 +41,5 @@ public class InfoControl {
 		log.info("info POST id:" + id +" Body :" + infoDTO.toString());
 		return infoService.saveByBathid(id, infoDTO);
 	}
-	
-	
 
 }

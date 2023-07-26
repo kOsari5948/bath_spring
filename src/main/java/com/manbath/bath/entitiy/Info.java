@@ -50,7 +50,7 @@ public class Info {
     @Column(name = "fan")
     private int fan;
     
-    @Column(name = "haet")
+    @Column(name = "heat")
     private int heat;
     
     @Column(name = "clean_valve")

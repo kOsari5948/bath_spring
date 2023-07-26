@@ -35,7 +35,11 @@ public class ControlService {
 	@Transactional(readOnly = true)
 	public Control findByBathid(String id){
 		log.info("Control findByBathid id :" + id );
-		return controlRepository.findByBathid(bathRepository.findByBathid(id),Sort.by(Sort.Direction.DESC, "controlid")).get(0);
+		try {
+			return controlRepository.findByBathid(bathRepository.findByBathid(id),Sort.by(Sort.Direction.DESC, "controlid")).get(0);
+		}catch (IndexOutOfBoundsException e){
+			return new Control();
+		}
 	}
 
 	@Transactional

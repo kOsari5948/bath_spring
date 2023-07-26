@@ -46,7 +46,6 @@ public class HistoryControl {
 	//사용자 기준으로 올리기
 	@PostMapping("/{id}")
 	public History historyPost(@PathVariable String id, @RequestBody HistoryPostDTO histroyDTO) {
-
 		log.info("history post id:" + id +" Body :" + histroyDTO.toString());
 		return history_service.saveByBathid(id, histroyDTO);
 	}

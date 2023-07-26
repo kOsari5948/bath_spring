@@ -2,6 +2,7 @@ package com.manbath.bath.entitiy;
 
 import java.time.LocalDateTime;
 
+import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.CreationTimestamp;
 
 import jakarta.persistence.Column;
@@ -48,4 +49,8 @@ public class Schedule {
     @CreationTimestamp
 	@Column(name = "time")
 	private LocalDateTime time;
+
+    @Column(name = "schedule_delete")
+    @ColumnDefault("0")
+    private int delete;
 }

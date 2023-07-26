@@ -29,9 +29,7 @@ public class ControlControl {
 
     @GetMapping("/{id}")
     public Control controlGet(@PathVariable String id) {
-
         log.info("control get id:" + id);
-        System.out.println("loglog this");
         return controlService.findByBathid(id);
     }
 

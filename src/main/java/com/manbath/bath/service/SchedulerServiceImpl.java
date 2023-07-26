@@ -5,6 +5,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 import com.manbath.bath.entitiy.Schedule;
+import com.manbath.bath.repository.ScheduleRepository;
+import lombok.Getter;
 import lombok.extern.log4j.Log4j2;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -25,6 +27,8 @@ import com.manbath.bath.repository.UserRepository;
 @Component
 public class SchedulerServiceImpl {
 	@Autowired
+	private ScheduleRepository scheduleRepository;
+	@Autowired
 	private ControlRepository controlRepository;
 	
 	@Autowired
@@ -34,9 +38,8 @@ public class SchedulerServiceImpl {
 	private UserRepository userRepository;
 
 	private final Logger LOGGER = LoggerFactory.getLogger(this.getClass());
-	private static final Map<String, ThreadPoolTaskScheduler> scheduledMap = new HashMap<>();
-
-	private static final Map<String, LocalDateTime> scheduledkey = new HashMap<String, java.time.LocalDateTime>();
+	private static final Map<String, ThreadPoolTaskScheduler> schedulerMap = new HashMap<>();
+	private static final Map<String, Schedule> scheduleMap = new HashMap<>();
 	private String cron = "*/2 * * * * *";
 	// 4월 6일 17시 28분
 	// private String cron = "* 29 17 6 4 *";
@@ -62,8 +65,8 @@ public class SchedulerServiceImpl {
 
 		// 사용자 id 와 시간 동일하면 스케쥴 에러 출력해 주자
 
-		scheduledMap.put(scheduleDTO.getUser_id() + scheduleDTO.getBath_start(), scheduler);
-		scheduledkey.put(scheduleDTO.getUser_id(),scheduleDTO.getBath_start());
+		schedulerMap.put(scheduleDTO.getUser_id(), scheduler);
+		scheduleMap.put(scheduleDTO.getUser_id(),schedule);
 	}
 
 	public void setCron(String cron) {
@@ -71,18 +74,14 @@ public class SchedulerServiceImpl {
 	}
 
 	public ThreadPoolTaskScheduler stopScheduler(String key) {
-		ThreadPoolTaskScheduler tmp = scheduledMap.get(key);
+		ThreadPoolTaskScheduler tmp = schedulerMap.get(key);
 		tmp.shutdown();
+		schedulerMap.remove(key);
+		Schedule sc = scheduleMap.get(key);
+		sc.setDelete(1);
+		scheduleRepository.save(sc);
+		scheduleMap.remove(key);
 		return tmp;
-	}
-
-	public String keyFind(String id){
-		LocalDateTime tmp = scheduledkey.get(id);
-		if(tmp!=null){
-			return id+tmp;
-		}else{
-			return null;
-		}
 	}
 
 	private Runnable getRunnable(ScheduleDTO scheduleDTO, Schedule schedule) {
@@ -114,8 +113,8 @@ public class SchedulerServiceImpl {
 			
 			//한번만 실행 하고 종료 
 			controlRepository.save(ct);
-			stopScheduler(scheduleDTO.getUser_id()+scheduleDTO.getBath_start());
-			
+			stopScheduler(scheduleDTO.getUser_id());
+			schedulerMap.remove(scheduleDTO.getUser_id());
 			
 		};
 	}
@@ -124,4 +123,6 @@ public class SchedulerServiceImpl {
 		// cronSetting
 		return new CronTrigger(cron);
 	}
+
+
 }
