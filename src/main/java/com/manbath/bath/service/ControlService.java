@@ -2,6 +2,7 @@ package com.manbath.bath.service;
 
 import java.util.List;
 
+import com.manbath.bath.entitiy.Bath;
 import lombok.extern.log4j.Log4j2;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,8 +37,9 @@ public class ControlService {
 	public Control findByBathid(String id){
 		log.info("Control findByBathid id :" + id );
 		try {
-			return controlRepository.findByBathid(bathRepository.findByBathid(id),Sort.by(Sort.Direction.DESC, "controlid")).get(0);
-		}catch (IndexOutOfBoundsException e){
+			Bath b = bathRepository.findByBathid(id);
+			return controlRepository.findByBathid(b,Sort.by(Sort.Direction.DESC, "controlid")).get(0);
+		}catch (Exception e){
 			return new Control();
 		}
 	}

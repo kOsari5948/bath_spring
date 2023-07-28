@@ -20,8 +20,7 @@ public class Control {
 	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long controlid;
-    
-    
+
 	@ManyToOne
     @JoinColumn(name = "userid")
     private com.manbath.bath.entitiy.User userid;
@@ -58,7 +57,6 @@ public class Control {
     @Column(name = "cleantime")
 	private int cleantime;
 
-    @ColumnDefault("0")
     @CreationTimestamp
 	@Column(name = "time")
 	private LocalDateTime time;

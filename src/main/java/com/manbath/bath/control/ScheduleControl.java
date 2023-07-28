@@ -1,17 +1,15 @@
 package com.manbath.bath.control;
 
 import lombok.extern.log4j.Log4j2;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.scheduling.concurrent.ThreadPoolTaskScheduler;
 import org.springframework.web.bind.annotation.*;
 
 import com.manbath.bath.DTO.ScheduleDTO;
 import com.manbath.bath.entitiy.Schedule;
-import com.manbath.bath.service.HistroyService;
 import com.manbath.bath.service.ScheduleService;
 
 import java.util.List;
+import java.util.Set;
 
 @Log4j2
 @RestController
@@ -35,7 +33,13 @@ public class ScheduleControl {
 	@GetMapping("/delete/{id}")
 	public String getDeleteSchedule(@PathVariable String id){
 		log.info("DeleteSchedule GET id :" + id );
-		return scheduleService.DeletescheduleFindByUserId(id).toString();
+		return scheduleService.DeleteScheduleFindByUserId(id);
+	}
+
+	@GetMapping("/find/{id}")
+	public Set<String> getfindSchedule(@PathVariable String id){
+		log.info("findSchedule GET id :" + id );
+		return scheduleService.findScheduleByUserId(id);
 	}
 
 }

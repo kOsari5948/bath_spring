@@ -20,5 +20,5 @@ import java.time.LocalDateTime;
 public interface ControlRepository extends JpaRepository<Control,String>{
 	
 	List<Control> findByBathid(Bath bathid, Sort sort);
-
+	List<Control> findByBathid(Bath bathid);
 }

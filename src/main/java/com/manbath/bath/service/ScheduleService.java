@@ -1,11 +1,10 @@
 package com.manbath.bath.service;
 
 import java.util.List;
-import java.util.Map;
+import java.util.Set;
 
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.scheduling.concurrent.ThreadPoolTaskScheduler;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -49,8 +48,8 @@ public class ScheduleService {
 		System.out.println("예약 진행");
 		System.out.println(sc.toString());
 		Schedule schedule = scheduleRepository.save(sc);
-		//동적 스케쥴 처리
-		schedulerServiceImpl.startScheduler(scheduleDTO,schedule);
+		System.out.println("예약 저장");
+		schedulerServiceImpl.startScheduler(schedule);
 		
 		return schedule;
 	}
@@ -61,9 +60,11 @@ public class ScheduleService {
 		return scheduleRepository.findByBathid(bathRepository.findByBathid(id));
 	}
 
-	public ThreadPoolTaskScheduler DeletescheduleFindByUserId(String id){
+	public String  DeleteScheduleFindByUserId(String id){
 		return schedulerServiceImpl.stopScheduler(id);
 	}
 
-
+	public Set<String> findScheduleByUserId(String id){
+		return schedulerServiceImpl.findSchduler(id);
+	}
 }

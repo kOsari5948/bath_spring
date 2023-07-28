@@ -1,23 +1,17 @@
 package com.manbath.bath.service;
 
 import java.time.LocalDateTime;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.Set;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 import com.manbath.bath.entitiy.Schedule;
 import com.manbath.bath.repository.ScheduleRepository;
-import lombok.Getter;
 import lombok.extern.log4j.Log4j2;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.scheduling.Trigger;
-import org.springframework.scheduling.concurrent.ThreadPoolTaskScheduler;
-import org.springframework.scheduling.support.CronTrigger;
 import org.springframework.stereotype.Component;
 
-import com.manbath.bath.DTO.ControlPostDTO;
-import com.manbath.bath.DTO.ScheduleDTO;
 import com.manbath.bath.entitiy.Control;
 import com.manbath.bath.repository.BathRepository;
 import com.manbath.bath.repository.ControlRepository;
@@ -25,104 +19,90 @@ import com.manbath.bath.repository.UserRepository;
 
 @Log4j2
 @Component
-public class SchedulerServiceImpl {
-	@Autowired
-	private ScheduleRepository scheduleRepository;
-	@Autowired
-	private ControlRepository controlRepository;
+public class SchedulerServiceImpl{
+
+	private final ScheduleRepository scheduleRepository;
+
+	private final ControlRepository controlRepository;
 	
-	@Autowired
-	private BathRepository bathRepository;
+
+	private final BathRepository bathRepository;
 	
-	@Autowired
-	private UserRepository userRepository;
+
+	private final UserRepository userRepository;
+
+	private final SchedulerMap schedulerMap;
+
+	private ExecutorService executorService = Executors.newSingleThreadExecutor();
 
 	private final Logger LOGGER = LoggerFactory.getLogger(this.getClass());
-	private static final Map<String, ThreadPoolTaskScheduler> schedulerMap = new HashMap<>();
-	private static final Map<String, Schedule> scheduleMap = new HashMap<>();
-	private String cron = "*/2 * * * * *";
-	// 4월 6일 17시 28분
-	// private String cron = "* 29 17 6 4 *";
 
-	public void startScheduler(ScheduleDTO scheduleDTO, Schedule schedule) {
-		ThreadPoolTaskScheduler scheduler = new ThreadPoolTaskScheduler();
-		scheduler.initialize();
-		
-		//들어오는 값으로 시간 cron 설정
-		String dateSt = "* ";
-		dateSt+= scheduleDTO.getBath_start().getMinute()+" ";
-		dateSt+= scheduleDTO.getBath_start().getHour()+" ";
-		dateSt+= scheduleDTO.getBath_start().getDayOfMonth()+" ";
-		dateSt+= scheduleDTO.getBath_start().getMonthValue()+" ";
-		dateSt+= "*";
-		//dateSt+=scheduleDTO.getBath_start().getYear();
-		System.out.println("기본 cron 처리문 : "+ cron.toString());	
-		System.out.println("스케쥴의 스케줄러 cron 처리문 : "+ dateSt.toString());		
-		setCron(dateSt);
-		
-		// scheduler setting
-		scheduler.schedule(getRunnable(scheduleDTO,schedule), getTrigger());
 
-		// 사용자 id 와 시간 동일하면 스케쥴 에러 출력해 주자
 
-		schedulerMap.put(scheduleDTO.getUser_id(), scheduler);
-		scheduleMap.put(scheduleDTO.getUser_id(),schedule);
+	public SchedulerServiceImpl(ScheduleRepository scheduleRepository,ControlRepository controlRepository,BathRepository bathRepository,UserRepository userRepository,SchedulerMap schedulerMap){
+		this.scheduleRepository = scheduleRepository;
+		this.controlRepository = controlRepository;
+		this.bathRepository = bathRepository;
+		this.userRepository = userRepository;
+		this.schedulerMap = schedulerMap;
+
+		executorService.execute(()->{
+			//맵을 뒤지기
+			try {
+				while (true){
+					for( String key_1 : schedulerMap.getSchedulerMap().keySet() ){
+						for(String key_2 : schedulerMap.getSchedulerMap().get(key_1).keySet()){
+							System.out.println(key_2);
+							if(schedulerMap.getSchedulerMap().get(key_1).get(key_2).getStarttime().isBefore(LocalDateTime.now())){
+
+								Schedule sc =  schedulerMap.getSchedulerMap().get(key_1).get(key_2);
+								Control control = new Control();
+
+								control.setScheduleid(sc);
+								control.setCleantime(sc.getCleantime());
+								control.setLevel(sc.getLevel());
+								control.setTemp(sc.getTemp());
+								control.setBathid(sc.getBathid());
+
+								control.setBathid(sc.getBathid());
+								control.setUserid(sc.getUserid());
+
+								controlRepository.save(control);
+
+								schedulerMap.getSchedulerMap().get(key_1).remove(key_2);
+							}
+						}
+					}
+					Thread.sleep(1000);
+
+				}
+
+			}catch (InterruptedException e) {
+				throw new RuntimeException(e);
+			}
+
+		});
 	}
 
-	public void setCron(String cron) {
-		this.cron = cron;
-	}
-
-	public ThreadPoolTaskScheduler stopScheduler(String key) {
-		ThreadPoolTaskScheduler tmp = schedulerMap.get(key);
-		tmp.shutdown();
-		schedulerMap.remove(key);
-		Schedule sc = scheduleMap.get(key);
-		sc.setDelete(1);
-		scheduleRepository.save(sc);
-		scheduleMap.remove(key);
-		return tmp;
-	}
-
-	private Runnable getRunnable(ScheduleDTO scheduleDTO, Schedule schedule) {
-		return () -> {
-			System.out.println("스케쥴 출력");
-			
-			ControlPostDTO controlDTO = new ControlPostDTO();
-			
-			controlDTO.setBath_id(scheduleDTO.getBath_id());
-			controlDTO.setUser_id(scheduleDTO.getUser_id());
-			controlDTO.setTemp(scheduleDTO.getTemp());
-			controlDTO.setLevel(scheduleDTO.getLevel());
-			controlDTO.setClean(scheduleDTO.getClean_time());
-			
-			Control ct = new Control();
-			
-			ct.setBathid(bathRepository.findByBathid(controlDTO.getBath_id()));
-			ct.setUserid(userRepository.findByUserid(controlDTO.getUser_id()));
-			ct.setTemp(controlDTO.getTemp());
-			ct.setLevel(controlDTO.getLevel());
-			ct.setCap(controlDTO.getCap());
-			ct.setCap(controlDTO.getCap());
-			ct.setH_valve(controlDTO.getH_valve());
-			ct.setC_valve(controlDTO.getC_valve());
-			ct.setCleantime(controlDTO.getClean());
-			ct.setScheduleid(schedule);
-			//작업 출력
-			System.out.println(controlRepository.toString());
-			
-			//한번만 실행 하고 종료 
-			controlRepository.save(ct);
-			stopScheduler(scheduleDTO.getUser_id());
-			schedulerMap.remove(scheduleDTO.getUser_id());
-			
-		};
-	}
-
-	private Trigger getTrigger() {
-		// cronSetting
-		return new CronTrigger(cron);
+	
+	public void startScheduler(Schedule schedule) {
+		System.out.println("에드 실행");
+		schedulerMap.addSchedulerMap(schedule);
 	}
 
 
+
+	public void allStopSchedler(){
+		executorService.shutdown();
+	}
+
+	public String stopScheduler(String key) {
+		System.out.println("딜리트 실행");
+		return schedulerMap.deleteSchedulerMap(key);
+	}
+
+	public Set<String> findSchduler(String key) {
+		System.out.println("찾기 실행");
+		return schedulerMap.findSchedule(key);
+	}
 }
