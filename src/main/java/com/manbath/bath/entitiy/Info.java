@@ -19,7 +19,7 @@ public class Info {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long infoid;
     
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "bathid")
     private Bath bathid;
 

@@ -18,5 +18,6 @@ import java.time.LocalDateTime;
 
 @Repository
 public interface ScheduleRepository extends JpaRepository<Schedule,String>{
-    List<Schedule> findByBathid(Bath bathid);
+    @Query("select s from schedule s join fetch s.bathid join fetch s.userid where s.bathid = :bathid")
+    List<Schedule> getfindByBathid(Bath bathid);
 }

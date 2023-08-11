@@ -19,7 +19,8 @@ import com.manbath.bath.entitiy.Bath;
 
 @Repository
 public interface InfoRepository extends JpaRepository<Info,String>{
-	
-	List<Info> findByBathid(Bath bathid, Sort sort);
+
+	@Query("SELECT i from info i join fetch i.bathid where i.bathid = :bathid order by i.infoid desc")
+	List<Info> getfindByBathid(Bath bathid);
 
 }

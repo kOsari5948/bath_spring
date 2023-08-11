@@ -18,7 +18,6 @@ import java.time.LocalDateTime;
 
 @Repository
 public interface ControlRepository extends JpaRepository<Control,String>{
-	
-	List<Control> findByBathid(Bath bathid, Sort sort);
-	List<Control> findByBathid(Bath bathid);
+	@Query("select c from control c join fetch c.bathid join fetch c.userid join fetch c.scheduleid where c.bathid = :bathid order by c.controlid desc")
+	List<Control> getfindByBathid(Bath bathid);
 }

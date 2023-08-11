@@ -38,7 +38,7 @@ public class ControlService {
 		log.info("Control findByBathid id :" + id );
 		try {
 			Bath b = bathRepository.findByBathid(id);
-			return controlRepository.findByBathid(b,Sort.by(Sort.Direction.DESC, "controlid")).get(0);
+			return controlRepository.getfindByBathid(b).get(0);
 		}catch (Exception e){
 			return new Control();
 		}
@@ -52,7 +52,7 @@ public class ControlService {
 		Control ct = new Control();
 		
 		ct.setBathid(bathRepository.findByBathid(controlDTO.getBath_id()));
-		ct.setUserid(userRepository.findByUserid(controlDTO.getUser_id()));
+		ct.setUserid(userRepository.getfindByUserid(controlDTO.getUser_id()));
 		ct.setTemp(controlDTO.getTemp());
 		ct.setLevel(controlDTO.getLevel());
 		ct.setCap(controlDTO.getCap());

@@ -5,6 +5,8 @@ import java.util.List;
 import lombok.extern.log4j.Log4j2;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -28,16 +30,16 @@ public class ControlControl {
 
 
     @GetMapping("/{id}")
-    public Control controlGet(@PathVariable String id) {
+    public ResponseEntity<?> controlGet(@PathVariable String id) {
         log.info("control get id:" + id);
-        return controlService.findByBathid(id);
+        return new ResponseEntity(controlService.findByBathid(id), HttpStatus.OK);
     }
 
     @PostMapping("/{id}")
-    public Control controlPost(@PathVariable String id, @RequestBody ControlPostDTO controlDTO) {
+    public ResponseEntity<?> controlPost(@PathVariable String id, @RequestBody ControlPostDTO controlDTO) {
         log.info("control Post id:" + id + " postDTO : " + controlDTO.toString());
         System.out.print(controlDTO.toString());
-        return controlService.saveByBathid(id, controlDTO);
+        return new ResponseEntity(controlService.saveByBathid(id, controlDTO), HttpStatus.CREATED);
     }
 
 }

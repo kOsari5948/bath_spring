@@ -18,7 +18,7 @@ public class User {
 	@Id
     private String userid;
     
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "bathid")
     private Bath bathid;
     

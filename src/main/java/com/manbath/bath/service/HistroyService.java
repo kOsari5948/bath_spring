@@ -49,7 +49,7 @@ public class HistroyService {
 	public List<History> findByUserid(String id, HistroyGetDTO vo){
 		log.info("Histroy findByUserid id :" + id );
 		//String jpql = "SELECT h FROM history h where userid = '"+ id +"' ";
-		String jpql = "SELECT h FROM history h where h.userid = :userid ";
+		String jpql = "SELECT h FROM history h join fetch h.userid join fetch h.bathid where h.userid = :userid ";
 		if (vo.getDay() != 0) {
 			jpql += "and DAY(h.start_time) = "+vo.getDay()+" ";
 		}
@@ -62,17 +62,16 @@ public class HistroyService {
 
 		System.out.println("쿼리문 실행: " + jpql);
 		//return historyRepository.findAll();
-		
 		TypedQuery<History> query;
 		
 		if(vo.getNumber()!= 0 ) {
 			query = em.createQuery(jpql,History.class)
-					.setParameter("userid",userRepository.findByUserid(id))
+					.setParameter("userid",userRepository.getfindByUserid(id))
 					.setFirstResult(vo.getStart())
 					.setMaxResults(vo.getNumber());
 		}else {
 			query = em.createQuery(jpql,History.class)
-					.setParameter("userid",userRepository.findByUserid(id))
+					.setParameter("userid",userRepository.getfindByUserid(id))
 					.setFirstResult(vo.getStart());
 		}
 		
@@ -88,7 +87,7 @@ public class HistroyService {
 		History hs = new History();
 		
 		hs.setBathid(bathRepository.findByBathid(historydto.getBath_id()));
-		hs.setUserid(userRepository.findByUserid(historydto.getUser_id()));
+		hs.setUserid(userRepository.getfindByUserid(historydto.getUser_id()));
 		hs.setStart_time(historydto.getStart_time());
 		hs.setEnd_time(historydto.getEnd_time());
 		hs.setBath_time(historydto.getBath_time());

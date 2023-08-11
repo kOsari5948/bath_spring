@@ -1,7 +1,7 @@
 package com.manbath.bath.service;
 
 import java.time.LocalDateTime;
-import java.util.Set;
+import java.util.Map;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -86,7 +86,6 @@ public class SchedulerServiceImpl{
 
 	
 	public void startScheduler(Schedule schedule) {
-		System.out.println("에드 실행");
 		schedulerMap.addSchedulerMap(schedule);
 	}
 
@@ -101,8 +100,12 @@ public class SchedulerServiceImpl{
 		return schedulerMap.deleteSchedulerMap(key);
 	}
 
-	public Set<String> findSchduler(String key) {
-		System.out.println("찾기 실행");
-		return schedulerMap.findSchedule(key);
+	public Map<String, Schedule> findSchdulerUserId(String key) {
+
+		return schedulerMap.findScheduleUserId(key);
+	}
+
+	public Map<String, Schedule> findSchdulerBathid(String key) {
+		return schedulerMap.findScheduleBathId(key);
 	}
 }

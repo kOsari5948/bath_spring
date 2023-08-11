@@ -43,7 +43,7 @@ public class InfoService {
 
 
 		try {
-			return infoRepository.findByBathid(bathRepository.findByBathid(id), Sort.by(Sort.Direction.DESC, "infoid")).get(0);
+			return infoRepository.getfindByBathid(bathRepository.findByBathid(id)).get(0);
 		}catch (IndexOutOfBoundsException e){
 			return new Info();
 		}

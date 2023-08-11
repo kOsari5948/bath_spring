@@ -12,6 +12,8 @@ import lombok.extern.log4j.Log4j2;
 import lombok.extern.slf4j.Slf4j;
 import org.hibernate.type.descriptor.DateTimeUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -36,18 +38,19 @@ public class HistoryControl {
 	
 	//사용자 기준으로 받기
 	@GetMapping("/{id}")
-	public List<History> historyGet(@PathVariable String id, HistroyGetDTO histroyDTO) {
+	public ResponseEntity<?> historyGet(@PathVariable String id, HistroyGetDTO histroyDTO) {
 		log.info("history get id:" + id +" Body :" + histroyDTO.toString());
-		return history_service.findByUserid(id,histroyDTO);
+
+		return new ResponseEntity(history_service.findByUserid(id,histroyDTO), HttpStatus.OK);
 	}
 	
 	
 	
 	//사용자 기준으로 올리기
 	@PostMapping("/{id}")
-	public History historyPost(@PathVariable String id, @RequestBody HistoryPostDTO histroyDTO) {
+	public ResponseEntity<?> historyPost(@PathVariable String id, @RequestBody HistoryPostDTO histroyDTO) {
 		log.info("history post id:" + id +" Body :" + histroyDTO.toString());
-		return history_service.saveByBathid(id, histroyDTO);
+		return new ResponseEntity(history_service.saveByBathid(id, histroyDTO), HttpStatus.CREATED);
 	}
 	
 }

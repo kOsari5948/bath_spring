@@ -19,11 +19,11 @@ public class History {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long historyid;
 	
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "userid")
     private com.manbath.bath.entitiy.User userid;
 	
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "bathid")
     private Bath bathid;
     
