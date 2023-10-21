@@ -17,6 +17,6 @@ import java.time.LocalDateTime;
 
 @Repository
 public interface UserRepository extends JpaRepository<User,String>{
-	@Query("select u from user u join fetch u.bathid where u.userid = :userid")
+	@Query("select u from user u left join fetch u.bathid where u.userid = :userid")
 	User getfindByUserid(String userid);
 }

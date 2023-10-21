@@ -80,7 +80,7 @@ public class HistroyService {
 	}
 	
 	@Transactional
-	public History saveByBathid(String id, HistoryPostDTO historydto) {
+	public History saveByBathid(String id,String user_id, HistoryPostDTO historydto) {
 		log.info("Histroy saveByBathid id :" + id );
 		historydto.setBath_id(id);
 		

@@ -2,6 +2,7 @@ package com.manbath.bath.entitiy;
 
 import java.time.LocalDateTime;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.*;
 import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.CreationTimestamp;
@@ -13,6 +14,7 @@ import lombok.RequiredArgsConstructor;
 
 @Data
 @Entity(name="schedule")
+@Schema(description ="예약 정보")
 @NoArgsConstructor
 @AllArgsConstructor
 public class Schedule {
