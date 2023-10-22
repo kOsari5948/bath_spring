@@ -72,12 +72,22 @@ public class InfoService {
 		log.info("info saveByBathid id :" + id );
 		log.info("info saveByBathid user_id :" + user_id);
 		infodto.setBath_id(id);
-		System.out.println(MapMap.get(infodto.getBath_id()) != infodto.getUID());
+		//System.out.println(MapMap.get(infodto.getBath_id()) != infodto.getUID());
+
+		System.out.println("*********************************************************************");
+		System.out.println("**********************에기서 부터 api 작업 시작**************************");
+		System.out.println("*********************************************************************");
 		if(MapMap.get(infodto.getBath_id()) == null){
+
+			System.out.println("*********************************************************************");
+			System.out.println("**********************UID 최초 없을 때 동작**************************");
+			System.out.println("*********************************************************************");
 			//상황맞춰서 API 전달
 			System.out.println("13233223232");
 			String apiUrl = "https://mzoin.com/sMankik/mk.saveUserLog";
+			String apiUrl_2 = "https://mzoin.com/sMankik/mk.saveContentsAndSendPush";
 			HttpURLConnection urlConnection = null;
+			HttpURLConnection urlConnection_2 = null;
 			System.out.println("13233223232");
 			try{
 				System.out.println("13233223232");
@@ -92,6 +102,16 @@ public class InfoService {
 
 				OutputStream outputStream = urlConnection.getOutputStream();
 
+				URL url_2 = new URL(apiUrl_2);
+				urlConnection_2 = (HttpURLConnection)url_2.openConnection();
+				urlConnection_2.setRequestMethod("POST");
+				urlConnection_2.setConnectTimeout(500);
+				urlConnection_2.setReadTimeout(100);
+				urlConnection_2.setRequestProperty("Content-Type", "application/json;");
+				urlConnection_2.setDoOutput(true);
+				urlConnection_2.setInstanceFollowRedirects(true);
+
+				OutputStream outputStream_2 = urlConnection_2.getOutputStream();
 
 				User user = userRepository.getfindByUserid(user_id);
 
@@ -124,159 +144,214 @@ public class InfoService {
 					bufferedWriter.flush();
 				}else if (infodto.getFan() == 4) {
 					BufferedWriter bufferedWriter = new BufferedWriter(new OutputStreamWriter(outputStream,"UTF-8"));
-					bufferedWriter.write("{ \"userLog\":{\n" +
-							"        \"logType\":\"BCLEANE_\",\n" +
-							"        \"targetKey\":\"1\",\n" +
-							"        \"targetKind\":\"A\",\n" + user.getUserid() +
-							"        \"frUserKey\":\" " +
-							"         \",\n" +
-							"        \"frUserText\":\"" + user.getUsername() +
-							"         \"\n" +
-							"    }" +
-							"}");
+					bufferedWriter.write(
+							"{\n" +
+									"    \"userLog\":{\n" +
+									"        \"logType\":\"BCLEANE_\",\n" +
+									"        \"targetKey\":\"1\",\n" +
+									"        \"targetKind\":\"A\",\n" +
+									"        \"frUserKey\":\""+user.getUserid() +"\",\n" +
+									"        \"frUserText\":\""+user.getUsername()+"\"\n" +
+									"    }\n" +
+									"}"
+					);
 					bufferedWriter.flush();
 				}else if (infodto.getFan() == 5) {
 					BufferedWriter bufferedWriter = new BufferedWriter(new OutputStreamWriter(outputStream,"UTF-8"));
-					bufferedWriter.write("{ \"userLog\":{\n" +
-							"        \"logType\":\"BCAPO___\",\n" +
-							"        \"targetKey\":\"1\",\n" +
-							"        \"targetKind\":\"A\",\n" + user.getUserid() +
-							"        \"frUserKey\":\" " +
-							"         \",\n" +
-							"        \"frUserText\":\"" + user.getUsername() +
-							"         \"\n" +
-							"    }" +
-							"}");
+					bufferedWriter.write(
+							"{\n" +
+									"    \"userLog\":{\n" +
+									"        \"logType\":\"BCAPO___\",\n" +
+									"        \"targetKey\":\"1\",\n" +
+									"        \"targetKind\":\"A\",\n" +
+									"        \"frUserKey\":\""+user.getUserid() +"\",\n" +
+									"        \"frUserText\":\""+user.getUsername()+"\"\n" +
+									"    }\n" +
+									"}"
+					);
 					bufferedWriter.flush();
 				}else if (infodto.getFan() == 6) {
 					BufferedWriter bufferedWriter = new BufferedWriter(new OutputStreamWriter(outputStream,"UTF-8"));
-					bufferedWriter.write("{ \"userLog\":{\n" +
-							"        \"logType\":\"BCAPC___\",\n" +
-							"        \"targetKey\":\"1\",\n" +
-							"        \"targetKind\":\"A\",\n" + user.getUserid() +
-							"        \"frUserKey\":\" " +
-							"         \",\n" +
-							"        \"frUserText\":\"" + user.getUsername() +
-							"         \"\n" +
-							"    }" +
-							"}");
+					bufferedWriter.write(
+							"{\n" +
+									"    \"userLog\":{\n" +
+									"        \"logType\":\"BCAPC___\",\n" +
+									"        \"targetKey\":\"1\",\n" +
+									"        \"targetKind\":\"A\",\n" +
+									"        \"frUserKey\":\""+user.getUserid() +"\",\n" +
+									"        \"frUserText\":\""+user.getUsername()+"\"\n" +
+									"    }\n" +
+									"}"
+					);
 					bufferedWriter.flush();
 				}else if (infodto.getFan() == 7) {
 					BufferedWriter bufferedWriter = new BufferedWriter(new OutputStreamWriter(outputStream,"UTF-8"));
-					bufferedWriter.write("{ \"userLog\":{\n" +
-							"        \"logType\":\"BCOLDO__\",\n" +
-							"        \"targetKey\":\"1\",\n" +
-							"        \"targetKind\":\"A\",\n" + user.getUserid() +
-							"        \"frUserKey\":\" " +
-							"         \",\n" +
-							"        \"frUserText\":\"" + user.getUsername() +
-							"         \"\n" +
-							"    }" +
-							"}");
+
+					bufferedWriter.write(
+							"{\n" +
+									"    \"userLog\":{\n" +
+									"        \"logType\":\"BCOLDO__\",\n" +
+									"        \"targetKey\":\"1\",\n" +
+									"        \"targetKind\":\"A\",\n" +
+									"        \"frUserKey\":\""+user.getUserid() +"\",\n" +
+									"        \"frUserText\":\""+user.getUsername()+"\"\n" +
+									"    }\n" +
+									"}"
+					);
 					bufferedWriter.flush();
 				}else if (infodto.getFan() == 8) {
 					BufferedWriter bufferedWriter = new BufferedWriter(new OutputStreamWriter(outputStream,"UTF-8"));
-					bufferedWriter.write("{ \"userLog\":{\n" +
-							"        \"logType\":\"BCOLDC__\",\n" +
-							"        \"targetKey\":\"1\",\n" +
-							"        \"targetKind\":\"A\",\n" + user.getUserid() +
-							"        \"frUserKey\":\" " +
-							"         \",\n" +
-							"        \"frUserText\":\"" + user.getUsername() +
-							"         \"\n" +
-							"    }" +
-							"}");
+					bufferedWriter.write(
+							"{\n" +
+									"    \"userLog\":{\n" +
+									"        \"logType\":\"BCOLDC__\",\n" +
+									"        \"targetKey\":\"1\",\n" +
+									"        \"targetKind\":\"A\",\n" +
+									"        \"frUserKey\":\""+user.getUserid() +"\",\n" +
+									"        \"frUserText\":\""+user.getUsername()+"\"\n" +
+									"    }\n" +
+									"}"
+					);
 					bufferedWriter.flush();
 				}else if (infodto.getFan() == 9) {
 					BufferedWriter bufferedWriter = new BufferedWriter(new OutputStreamWriter(outputStream,"UTF-8"));
-					bufferedWriter.write("{ \"userLog\":{\n" +
-							"        \"logType\":\"BHOTO___\",\n" +
-							"        \"targetKey\":\"1\",\n" +
-							"        \"targetKind\":\"A\",\n" + user.getUserid() +
-							"        \"frUserKey\":\" " +
-							"         \",\n" +
-							"        \"frUserText\":\"" + user.getUsername() +
-							"         \"\n" +
-							"    }" +
-							"}");
+					bufferedWriter.write(
+							"{\n" +
+									"    \"userLog\":{\n" +
+									"        \"logType\":\"BHOTO___\",\n" +
+									"        \"targetKey\":\"1\",\n" +
+									"        \"targetKind\":\"A\",\n" +
+									"        \"frUserKey\":\""+user.getUserid() +"\",\n" +
+									"        \"frUserText\":\""+user.getUsername()+"\"\n" +
+									"    }\n" +
+									"}"
+					);
 					bufferedWriter.flush();
 				}else if (infodto.getFan() == 10) {
 					BufferedWriter bufferedWriter = new BufferedWriter(new OutputStreamWriter(outputStream,"UTF-8"));
-					bufferedWriter.write("{ \"userLog\":{\n" +
-							"        \"logType\":\"BHOTC___\",\n" +
-							"        \"targetKey\":\"1\",\n" +
-							"        \"targetKind\":\"A\",\n" + user.getUserid() +
-							"        \"frUserKey\":\" " +
-							"         \",\n" +
-							"        \"frUserText\":\"" + user.getUsername() +
-							"         \"\n" +
-							"    }" +
-							"}");
+					bufferedWriter.write(
+							"{\n" +
+									"    \"userLog\":{\n" +
+									"        \"logType\":\"BHOTC___\",\n" +
+									"        \"targetKey\":\"1\",\n" +
+									"        \"targetKind\":\"A\",\n" +
+									"        \"frUserKey\":\""+user.getUserid() +"\",\n" +
+									"        \"frUserText\":\""+user.getUsername()+"\"\n" +
+									"    }\n" +
+									"}"
+					);
 					bufferedWriter.flush();
 				}else if (infodto.getFan() == 11) {
 					BufferedWriter bufferedWriter = new BufferedWriter(new OutputStreamWriter(outputStream,"UTF-8"));
-					bufferedWriter.write("{ \"userLog\":{\n" +
-							"        \"logType\":\"BREGIST_\",\n" +
-							"        \"targetKey\":\"1\",\n" +
-							"        \"targetKind\":\"A\",\n" + user.getUserid() +
-							"        \"frUserKey\":\" " +
-							"         \",\n" +
-							"        \"frUserText\":\"" + user.getUsername() +
-							"         \"\n" +
-							"    }" +
-							"}");
+					bufferedWriter.write(
+							"{\n" +
+									"    \"userLog\":{\n" +
+									"        \"logType\":\"BREGIST_\",\n" +
+									"        \"targetKey\":\"1\",\n" +
+									"        \"targetKind\":\"A\",\n" +
+									"        \"frUserKey\":\""+user.getUserid() +"\",\n" +
+									"        \"frUserText\":\""+user.getUsername()+"\"\n" +
+									"    }\n" +
+									"}"
+					);
 					bufferedWriter.flush();
 				}else if (infodto.getFan() == 12) {
 					BufferedWriter bufferedWriter = new BufferedWriter(new OutputStreamWriter(outputStream,"UTF-8"));
-					bufferedWriter.write("{ \"userLog\":{\n" +
-							"        \"logType\":\"BBATHS__\",\n" +
-							"        \"targetKey\":\"1\",\n" +
-							"        \"targetKind\":\"A\",\n" + user.getUserid() +
-							"        \"frUserKey\":\" " +
-							"         \",\n" +
-							"        \"frUserText\":\"" + user.getUsername() +
-							"         \"\n" +
-							"    }" +
-							"}");
+					bufferedWriter.write(
+							"{\n" +
+									"    \"userLog\":{\n" +
+									"        \"logType\":\"BBATHS__\",\n" +
+									"        \"targetKey\":\"1\",\n" +
+									"        \"targetKind\":\"A\",\n" +
+									"        \"frUserKey\":\""+user.getUserid() +"\",\n" +
+									"        \"frUserText\":\""+user.getUsername()+"\"\n" +
+									"    }\n" +
+									"}"
+					);
+
 					bufferedWriter.flush();
+
+					BufferedWriter bufferedWriter_2 = new BufferedWriter(new OutputStreamWriter(outputStream_2,"UTF-8"));
+					bufferedWriter_2.write(
+							"{\n" +
+									"    \"contents\":{\n" +
+									"        \"title\":\"목욕 준비 시작\",\n" +
+									"        \"bodyFullStr\":\"지금 목욕 준비를 시작 해요\",\n" +
+									"        \"actorList\":[{\"accessKind\":\"U\",\"accessKey\":\""+user.getUserid() +"\"}],\n" +
+									"        \"creAppKey\":\"1\",\n" +
+									"        \"creUserKey\":\""+user.getUserid()+"\"\n" +
+									"    }\n" +
+									"}"
+					);
+					bufferedWriter_2.flush();
 				}else if (infodto.getFan() == 13) {
 					BufferedWriter bufferedWriter = new BufferedWriter(new OutputStreamWriter(outputStream,"UTF-8"));
-					bufferedWriter.write("{ \"userLog\":{\n" +
-							"        \"logType\":\"BBATHF__\",\n" +
-							"        \"targetKey\":\"1\",\n" +
-							"        \"targetKind\":\"A\",\n" + user.getUserid() +
-							"        \"frUserKey\":\" " +
-							"         \",\n" +
-							"        \"frUserText\":\"" + user.getUsername() +
-							"         \"\n" +
-							"    }" +
-							"}");
+					bufferedWriter.write(
+							"{\n" +
+									"    \"userLog\":{\n" +
+									"        \"logType\":\"BBATHF__\",\n" +
+									"        \"targetKey\":\"1\",\n" +
+									"        \"targetKind\":\"A\",\n" +
+									"        \"frUserKey\":\""+user.getUserid() +"\",\n" +
+									"        \"frUserText\":\""+user.getUsername()+"\"\n" +
+									"    }\n" +
+									"}"
+					);
 					bufferedWriter.flush();
+
+					BufferedWriter bufferedWriter_2 = new BufferedWriter(new OutputStreamWriter(outputStream_2,"UTF-8"));
+					bufferedWriter_2.write(
+							"{\n" +
+									"    \"contents\":{\n" +
+									"        \"title\":\"목욕 준비 시작\",\n" +
+									"        \"bodyFullStr\":\"지금 목욕 준비를 시작 해요\",\n" +
+									"        \"actorList\":[{\"accessKind\":\"U\",\"accessKey\":\""+user.getUserid() +"\"}],\n" +
+									"        \"creAppKey\":\"1\",\n" +
+									"        \"creUserKey\":\""+user.getUserid()+"\"\n" +
+									"    }\n" +
+									"}"
+					);
+					bufferedWriter_2.flush();
 				}else if (infodto.getFan() == 14) {
 					BufferedWriter bufferedWriter = new BufferedWriter(new OutputStreamWriter(outputStream,"UTF-8"));
-					bufferedWriter.write("{ \"userLog\":{\n" +
-							"        \"logType\":\"BBATHE__\",\n" +
-							"        \"targetKey\":\"1\",\n" +
-							"        \"targetKind\":\"A\",\n" + user.getUserid() +
-							"        \"frUserKey\":\" " +
-							"         \",\n" +
-							"        \"frUserText\":\"" + user.getUsername() +
-							"         \"\n" +
-							"    }" +
-							"}");
+					bufferedWriter.write(
+							"{\n" +
+									"    \"userLog\":{\n" +
+									"        \"logType\":\"BBATHE__\",\n" +
+									"        \"targetKey\":\"1\",\n" +
+									"        \"targetKind\":\"A\",\n" +
+									"        \"frUserKey\":\""+user.getUserid() +"\",\n" +
+									"        \"frUserText\":\""+user.getUsername()+"\"\n" +
+									"    }\n" +
+									"}"
+					);
 					bufferedWriter.flush();
+					BufferedWriter bufferedWriter_2 = new BufferedWriter(new OutputStreamWriter(outputStream_2,"UTF-8"));
+					bufferedWriter_2.write(
+							"{\n" +
+									"    \"contents\":{\n" +
+									"        \"title\":\"목욕 종료 \",\n" +
+									"        \"bodyFullStr\":\"지금 목욕이 종료 되었어요\",\n" +
+									"        \"actorList\":[{\"accessKind\":\"U\",\"accessKey\":\""+user.getUserid() +"\"}],\n" +
+									"        \"creAppKey\":\"1\",\n" +
+									"        \"creUserKey\":\""+user.getUserid()+"\"\n" +
+									"    }\n" +
+									"}"
+					);
+					bufferedWriter_2.flush();
 				}else if (infodto.getFan() == 15) {
 					BufferedWriter bufferedWriter = new BufferedWriter(new OutputStreamWriter(outputStream,"UTF-8"));
-					bufferedWriter.write("{ \"userLog\":{\n" +
-							"        \"logType\":\"BCANCEL_\",\n" +
-							"        \"targetKey\":\"1\",\n" +
-							"        \"targetKind\":\"A\",\n" + user.getUserid() +
-							"        \"frUserKey\":\" " +
-							"         \",\n" +
-							"        \"frUserText\":\"" + user.getUsername() +
-							"         \"\n" +
-							"    }" +
-							"}");
+					bufferedWriter.write(
+							"{\n" +
+									"    \"userLog\":{\n" +
+									"        \"logType\":\"BCANCEL_\",\n" +
+									"        \"targetKey\":\"1\",\n" +
+									"        \"targetKind\":\"A\",\n" +
+									"        \"frUserKey\":\""+user.getUserid() +"\",\n" +
+									"        \"frUserText\":\""+user.getUsername()+"\"\n" +
+									"    }\n" +
+									"}"
+					);
 					bufferedWriter.flush();
 				}
 
@@ -293,9 +368,15 @@ public class InfoService {
 			MapMap.put(infodto.getBath_id(), infodto.getUID());
 		}else if(!(MapMap.get(infodto.getBath_id())==infodto.getUID())){
 			//상황맞춰서 API 전달
+			System.out.println("*********************************************************************");
+			System.out.println("**********************UID 기존이랑 다를때 동작**************************");
+			System.out.println("*********************************************************************");
 			System.out.println("13233223232");
 			String apiUrl = "https://mzoin.com/sMankik/mk.saveUserLog";
 			HttpURLConnection urlConnection = null;
+
+			String apiUrl_2 = "https://mzoin.com/sMankik/mk.saveContentsAndSendPush";
+			HttpURLConnection urlConnection_2 = null;
 			System.out.println("13233223232");
 			try{
 				System.out.println("13233223232");
@@ -310,177 +391,253 @@ public class InfoService {
 
 				OutputStream outputStream = urlConnection.getOutputStream();
 
+				URL url_2 = new URL(apiUrl_2);
+				urlConnection_2 = (HttpURLConnection)url_2.openConnection();
+				urlConnection_2.setRequestMethod("POST");
+				urlConnection_2.setConnectTimeout(500);
+				urlConnection_2.setReadTimeout(100);
+				urlConnection_2.setRequestProperty("Content-Type", "application/json;");
+				urlConnection_2.setDoOutput(true);
+				urlConnection_2.setInstanceFollowRedirects(true);
+
+				OutputStream outputStream_2 = urlConnection_2.getOutputStream();
+
 				User user = userRepository.getfindByUserid(user_id);
 				if(infodto.getFan()== 3){
 					System.out.println("fan number" + infodto.getFan());
 					BufferedWriter bufferedWriter = new BufferedWriter(new OutputStreamWriter(outputStream,"UTF-8"));
-					bufferedWriter.write("{ \"userLog\":{\n" +
-							"        \"logType\":\"BCLEANS_\",\n" +
-							"        \"targetKey\":\"1\",\n" +
-							"        \"targetKind\":\"A\",\n" + user.getUserid() +
-							"        \"frUserKey\":\" " +
-							"         \",\n" +
-							"        \"frUserText\":\"" + user.getUsername() +
-							"         \"\n" +
-							"    }" +
-							"}");
+//					bufferedWriter.write("{ \"userLog\":{\n" +
+//							"        \"logType\":\"BCLEANS_\",\n" +
+//							"        \"targetKey\":\"1\",\n" +
+//							"        \"targetKind\":\"A\",\n" + user.getUserid() +
+//							"        \"frUserKey\":\" " +
+//							"         \",\n" +
+//							"        \"frUserText\":\"" + user.getUsername() +
+//							"         \"\n" +
+//							"    }" +
+//							"}");
 
+					bufferedWriter.write(
+							"{\n" +
+									"    \"userLog\":{\n" +
+									"        \"logType\":\"BCLEANS_\",\n" +
+									"        \"targetKey\":\"1\",\n" +
+									"        \"targetKind\":\"A\",\n" +
+									"        \"frUserKey\":\""+user.getUserid() +"\",\n" +
+									"        \"frUserText\":\""+user.getUsername()+"\"\n" +
+									"    }\n" +
+									"}"
+					);
 					bufferedWriter.flush();
 				}else if (infodto.getFan() == 4) {
 					BufferedWriter bufferedWriter = new BufferedWriter(new OutputStreamWriter(outputStream,"UTF-8"));
-					bufferedWriter.write("{ \"userLog\":{\n" +
-							"        \"logType\":\"BCLEANE_\",\n" +
-							"        \"targetKey\":\"1\",\n" +
-							"        \"targetKind\":\"A\",\n" + user.getUserid() +
-							"        \"frUserKey\":\" " +
-							"         \",\n" +
-							"        \"frUserText\":\"" + user.getUsername() +
-							"         \"\n" +
-							"    }" +
-							"}");
+					bufferedWriter.write(
+							"{\n" +
+									"    \"userLog\":{\n" +
+									"        \"logType\":\"BCLEANE_\",\n" +
+									"        \"targetKey\":\"1\",\n" +
+									"        \"targetKind\":\"A\",\n" +
+									"        \"frUserKey\":\""+user.getUserid() +"\",\n" +
+									"        \"frUserText\":\""+user.getUsername()+"\"\n" +
+									"    }\n" +
+									"}"
+					);
 					bufferedWriter.flush();
 				}else if (infodto.getFan() == 5) {
 					BufferedWriter bufferedWriter = new BufferedWriter(new OutputStreamWriter(outputStream,"UTF-8"));
-					bufferedWriter.write("{ \"userLog\":{\n" +
-							"        \"logType\":\"BCAPO___\",\n" +
-							"        \"targetKey\":\"1\",\n" +
-							"        \"targetKind\":\"A\",\n" + user.getUserid() +
-							"        \"frUserKey\":\" " +
-							"         \",\n" +
-							"        \"frUserText\":\"" + user.getUsername() +
-							"         \"\n" +
-							"    }" +
-							"}");
+					bufferedWriter.write(
+							"{\n" +
+									"    \"userLog\":{\n" +
+									"        \"logType\":\"BCAPO___\",\n" +
+									"        \"targetKey\":\"1\",\n" +
+									"        \"targetKind\":\"A\",\n" +
+									"        \"frUserKey\":\""+user.getUserid() +"\",\n" +
+									"        \"frUserText\":\""+user.getUsername()+"\"\n" +
+									"    }\n" +
+									"}"
+					);
 					bufferedWriter.flush();
 				}else if (infodto.getFan() == 6) {
 					BufferedWriter bufferedWriter = new BufferedWriter(new OutputStreamWriter(outputStream,"UTF-8"));
-					bufferedWriter.write("{ \"userLog\":{\n" +
-							"        \"logType\":\"BCAPC___\",\n" +
-							"        \"targetKey\":\"1\",\n" +
-							"        \"targetKind\":\"A\",\n" + user.getUserid() +
-							"        \"frUserKey\":\" " +
-							"         \",\n" +
-							"        \"frUserText\":\"" + user.getUsername() +
-							"         \"\n" +
-							"    }" +
-							"}");
+					bufferedWriter.write(
+							"{\n" +
+									"    \"userLog\":{\n" +
+									"        \"logType\":\"BCAPC___\",\n" +
+									"        \"targetKey\":\"1\",\n" +
+									"        \"targetKind\":\"A\",\n" +
+									"        \"frUserKey\":\""+user.getUserid() +"\",\n" +
+									"        \"frUserText\":\""+user.getUsername()+"\"\n" +
+									"    }\n" +
+									"}"
+					);
 					bufferedWriter.flush();
 				}else if (infodto.getFan() == 7) {
 					BufferedWriter bufferedWriter = new BufferedWriter(new OutputStreamWriter(outputStream,"UTF-8"));
-					bufferedWriter.write("{ \"userLog\":{\n" +
-							"        \"logType\":\"BCOLDO__\",\n" +
-							"        \"targetKey\":\"1\",\n" +
-							"        \"targetKind\":\"A\",\n" + user.getUserid() +
-							"        \"frUserKey\":\" " +
-							"         \",\n" +
-							"        \"frUserText\":\"" + user.getUsername() +
-							"         \"\n" +
-							"    }" +
-							"}");
+
+					bufferedWriter.write(
+							"{\n" +
+									"    \"userLog\":{\n" +
+									"        \"logType\":\"BCOLDO__\",\n" +
+									"        \"targetKey\":\"1\",\n" +
+									"        \"targetKind\":\"A\",\n" +
+									"        \"frUserKey\":\""+user.getUserid() +"\",\n" +
+									"        \"frUserText\":\""+user.getUsername()+"\"\n" +
+									"    }\n" +
+									"}"
+					);
 					bufferedWriter.flush();
 				}else if (infodto.getFan() == 8) {
 					BufferedWriter bufferedWriter = new BufferedWriter(new OutputStreamWriter(outputStream,"UTF-8"));
-					bufferedWriter.write("{ \"userLog\":{\n" +
-							"        \"logType\":\"BCOLDC__\",\n" +
-							"        \"targetKey\":\"1\",\n" +
-							"        \"targetKind\":\"A\",\n" + user.getUserid() +
-							"        \"frUserKey\":\" " +
-							"         \",\n" +
-							"        \"frUserText\":\"" + user.getUsername() +
-							"         \"\n" +
-							"    }" +
-							"}");
+					bufferedWriter.write(
+							"{\n" +
+									"    \"userLog\":{\n" +
+									"        \"logType\":\"BCOLDC__\",\n" +
+									"        \"targetKey\":\"1\",\n" +
+									"        \"targetKind\":\"A\",\n" +
+									"        \"frUserKey\":\""+user.getUserid() +"\",\n" +
+									"        \"frUserText\":\""+user.getUsername()+"\"\n" +
+									"    }\n" +
+									"}"
+					);
 					bufferedWriter.flush();
 				}else if (infodto.getFan() == 9) {
 					BufferedWriter bufferedWriter = new BufferedWriter(new OutputStreamWriter(outputStream,"UTF-8"));
-					bufferedWriter.write("{ \"userLog\":{\n" +
-							"        \"logType\":\"BHOTO___\",\n" +
-							"        \"targetKey\":\"1\",\n" +
-							"        \"targetKind\":\"A\",\n" + user.getUserid() +
-							"        \"frUserKey\":\" " +
-							"         \",\n" +
-							"        \"frUserText\":\"" + user.getUsername() +
-							"         \"\n" +
-							"    }" +
-							"}");
+					bufferedWriter.write(
+							"{\n" +
+									"    \"userLog\":{\n" +
+									"        \"logType\":\"BHOTO___\",\n" +
+									"        \"targetKey\":\"1\",\n" +
+									"        \"targetKind\":\"A\",\n" +
+									"        \"frUserKey\":\""+user.getUserid() +"\",\n" +
+									"        \"frUserText\":\""+user.getUsername()+"\"\n" +
+									"    }\n" +
+									"}"
+					);
 					bufferedWriter.flush();
 				}else if (infodto.getFan() == 10) {
 					BufferedWriter bufferedWriter = new BufferedWriter(new OutputStreamWriter(outputStream,"UTF-8"));
-					bufferedWriter.write("{ \"userLog\":{\n" +
-							"        \"logType\":\"BHOTC___\",\n" +
-							"        \"targetKey\":\"1\",\n" +
-							"        \"targetKind\":\"A\",\n" + user.getUserid() +
-							"        \"frUserKey\":\" " +
-							"         \",\n" +
-							"        \"frUserText\":\"" + user.getUsername() +
-							"         \"\n" +
-							"    }" +
-							"}");
+					bufferedWriter.write(
+							"{\n" +
+									"    \"userLog\":{\n" +
+									"        \"logType\":\"BHOTC___\",\n" +
+									"        \"targetKey\":\"1\",\n" +
+									"        \"targetKind\":\"A\",\n" +
+									"        \"frUserKey\":\""+user.getUserid() +"\",\n" +
+									"        \"frUserText\":\""+user.getUsername()+"\"\n" +
+									"    }\n" +
+									"}"
+					);
 					bufferedWriter.flush();
 				}else if (infodto.getFan() == 11) {
 					BufferedWriter bufferedWriter = new BufferedWriter(new OutputStreamWriter(outputStream,"UTF-8"));
-					bufferedWriter.write("{ \"userLog\":{\n" +
-							"        \"logType\":\"BREGIST_\",\n" +
-							"        \"targetKey\":\"1\",\n" +
-							"        \"targetKind\":\"A\",\n" + user.getUserid() +
-							"        \"frUserKey\":\" " +
-							"         \",\n" +
-							"        \"frUserText\":\"" + user.getUsername() +
-							"         \"\n" +
-							"    }" +
-							"}");
+					bufferedWriter.write(
+							"{\n" +
+									"    \"userLog\":{\n" +
+									"        \"logType\":\"BREGIST_\",\n" +
+									"        \"targetKey\":\"1\",\n" +
+									"        \"targetKind\":\"A\",\n" +
+									"        \"frUserKey\":\""+user.getUserid() +"\",\n" +
+									"        \"frUserText\":\""+user.getUsername()+"\"\n" +
+									"    }\n" +
+									"}"
+					);
 					bufferedWriter.flush();
 				}else if (infodto.getFan() == 12) {
 					BufferedWriter bufferedWriter = new BufferedWriter(new OutputStreamWriter(outputStream,"UTF-8"));
-					bufferedWriter.write("{ \"userLog\":{\n" +
-							"        \"logType\":\"BBATHS__\",\n" +
-							"        \"targetKey\":\"1\",\n" +
-							"        \"targetKind\":\"A\",\n" + user.getUserid() +
-							"        \"frUserKey\":\" " +
-							"         \",\n" +
-							"        \"frUserText\":\"" + user.getUsername() +
-							"         \"\n" +
-							"    }" +
-							"}");
+
+					bufferedWriter.write(
+							"{\n" +
+									"    \"userLog\":{\n" +
+									"        \"logType\":\"BBATHS__\",\n" +
+									"        \"targetKey\":\"1\",\n" +
+									"        \"targetKind\":\"A\",\n" +
+									"        \"frUserKey\":\""+user.getUserid() +"\",\n" +
+									"        \"frUserText\":\""+user.getUsername()+"\"\n" +
+									"    }\n" +
+									"}"
+					);
 					bufferedWriter.flush();
+
+					BufferedWriter bufferedWriter_2 = new BufferedWriter(new OutputStreamWriter(outputStream_2,"UTF-8"));
+					bufferedWriter_2.write(
+							"{\n" +
+									"    \"contents\":{\n" +
+									"        \"title\":\"목욕 준비 시작\",\n" +
+									"        \"bodyFullStr\":\"지금 목욕 준비를 시작 해요\",\n" +
+									"        \"actorList\":[{\"accessKind\":\"U\",\"accessKey\":\""+user.getUserid() +"\"}],\n" +
+									"        \"creAppKey\":\"1\",\n" +
+									"        \"creUserKey\":\""+user.getUserid()+"\"\n" +
+									"    }\n" +
+									"}"
+					);
+					bufferedWriter_2.flush();
 				}else if (infodto.getFan() == 13) {
 					BufferedWriter bufferedWriter = new BufferedWriter(new OutputStreamWriter(outputStream,"UTF-8"));
-					bufferedWriter.write("{ \"userLog\":{\n" +
-							"        \"logType\":\"BBATHF__\",\n" +
-							"        \"targetKey\":\"1\",\n" +
-							"        \"targetKind\":\"A\",\n" + user.getUserid() +
-							"        \"frUserKey\":\" " +
-							"         \",\n" +
-							"        \"frUserText\":\"" + user.getUsername() +
-							"         \"\n" +
-							"    }" +
-							"}");
+					bufferedWriter.write(
+							"{\n" +
+									"    \"userLog\":{\n" +
+									"        \"logType\":\"BBATHF__\",\n" +
+									"        \"targetKey\":\"1\",\n" +
+									"        \"targetKind\":\"A\",\n" +
+									"        \"frUserKey\":\""+user.getUserid() +"\",\n" +
+									"        \"frUserText\":\""+user.getUsername()+"\"\n" +
+									"    }\n" +
+									"}"
+					);
 					bufferedWriter.flush();
+					BufferedWriter bufferedWriter_2 = new BufferedWriter(new OutputStreamWriter(outputStream_2,"UTF-8"));
+					bufferedWriter_2.write(
+							"{\n" +
+									"    \"contents\":{\n" +
+									"        \"title\":\"목욕 준비 시작\",\n" +
+									"        \"bodyFullStr\":\"지금 목욕 준비를 시작 해요\",\n" +
+									"        \"actorList\":[{\"accessKind\":\"U\",\"accessKey\":\""+user.getUserid() +"\"}],\n" +
+									"        \"creAppKey\":\"1\",\n" +
+									"        \"creUserKey\":\""+user.getUserid()+"\"\n" +
+									"    }\n" +
+									"}"
+					);
+					bufferedWriter_2.flush();
 				}else if (infodto.getFan() == 14) {
 					BufferedWriter bufferedWriter = new BufferedWriter(new OutputStreamWriter(outputStream,"UTF-8"));
-					bufferedWriter.write("{ \"userLog\":{\n" +
-							"        \"logType\":\"BBATHE__\",\n" +
-							"        \"targetKey\":\"1\",\n" +
-							"        \"targetKind\":\"A\",\n" + user.getUserid() +
-							"        \"frUserKey\":\" " +
-							"         \",\n" +
-							"        \"frUserText\":\"" + user.getUsername() +
-							"         \"\n" +
-							"    }" +
-							"}");
+					bufferedWriter.write(
+							"{\n" +
+									"    \"userLog\":{\n" +
+									"        \"logType\":\"BBATHE__\",\n" +
+									"        \"targetKey\":\"1\",\n" +
+									"        \"targetKind\":\"A\",\n" +
+									"        \"frUserKey\":\""+user.getUserid() +"\",\n" +
+									"        \"frUserText\":\""+user.getUsername()+"\"\n" +
+									"    }\n" +
+									"}"
+					);
 					bufferedWriter.flush();
+					BufferedWriter bufferedWriter_2 = new BufferedWriter(new OutputStreamWriter(outputStream_2,"UTF-8"));
+					bufferedWriter_2.write(
+							"{\n" +
+									"    \"contents\":{\n" +
+									"        \"title\":\"목욕 종료 \",\n" +
+									"        \"bodyFullStr\":\"지금 목욕이 종료 되었어요\",\n" +
+									"        \"actorList\":[{\"accessKind\":\"U\",\"accessKey\":\""+user.getUserid() +"\"}],\n" +
+									"        \"creAppKey\":\"1\",\n" +
+									"        \"creUserKey\":\""+user.getUserid()+"\"\n" +
+									"    }\n" +
+									"}"
+					);
+					bufferedWriter_2.flush();
 				}else if (infodto.getFan() == 15) {
 					BufferedWriter bufferedWriter = new BufferedWriter(new OutputStreamWriter(outputStream,"UTF-8"));
-					bufferedWriter.write("{ \"userLog\":{\n" +
-							"        \"logType\":\"BCANCEL_\",\n" +
-							"        \"targetKey\":\"1\",\n" +
-							"        \"targetKind\":\"A\",\n" + user.getUserid() +
-							"        \"frUserKey\":\" " +
-							"         \",\n" +
-							"        \"frUserText\":\"" + user.getUsername() +
-							"         \"\n" +
-							"    }" +
-							"}");
+					bufferedWriter.write(
+							"{\n" +
+									"    \"userLog\":{\n" +
+									"        \"logType\":\"BCANCEL_\",\n" +
+									"        \"targetKey\":\"1\",\n" +
+									"        \"targetKind\":\"A\",\n" +
+									"        \"frUserKey\":\""+user.getUserid() +"\",\n" +
+									"        \"frUserText\":\""+user.getUsername()+"\"\n" +
+									"    }\n" +
+									"}"
+					);
 					bufferedWriter.flush();
 				}
 			}catch (Exception e){
@@ -493,6 +650,10 @@ public class InfoService {
 			}
 			//UID 변경
 			MapMap.put(infodto.getBath_id(), infodto.getUID());
+		}else{
+			System.out.println("*********************************************************************");
+			System.out.println("**********************UID 기존이랑 같을때 동작**************************");
+			System.out.println("*********************************************************************");
 		}
 
 		Info info = new Info();
