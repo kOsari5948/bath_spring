@@ -32,12 +32,14 @@ public class SchedulerMap {
             System.out.println("에드 맵 있음");
             //있으면 추가
             schedulerMap.get(schedule.getUserid().getUserid()).put(schedule.getUserid().getUserid() + schedule.getTime(), schedule);
+            System.out.println("에드 맵 끝");
         } else {
             System.out.println("에드 실행_맵_없음");
             //없으면 만들어서 추가
             Map<String, Schedule> map = new HashMap<>();
             map.put(schedule.getUserid().getUserid() + schedule.getTime(), schedule);
             schedulerMap.put(schedule.getUserid().getUserid(), map);
+            System.out.println("에드 맵 끝");
         }
         return schedulerMap;
     }
@@ -46,7 +48,14 @@ public class SchedulerMap {
         //받은키 자르기
         //뒤에서 부터 자르기
         // 2018-06-17T22:46:17.348
-        String key_tmp = key.substring(0, key.length() - 26);
+        String key_tmp;
+
+        try {
+            key_tmp = key.substring(0, key.length() - 26);
+        } catch (Exception e) {
+            System.out.println("에러 : " + e.toString());
+            return "false";
+        }
 
         System.out.println("key_tmp :" + key_tmp);
         System.out.println("key : " + key);
@@ -112,4 +121,10 @@ public class SchedulerMap {
         }
 
     }
+
+    public void putAll(Map<String,Map<String,Schedule>> s){
+        schedulerMap.clear();
+        schedulerMap.putAll(s);
+    }
+
 }
